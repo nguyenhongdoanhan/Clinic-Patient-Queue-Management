@@ -55,6 +55,18 @@ def on_startup():
     finally:
         db.close()
 
+<<<<<<< HEAD
+=======
+from app.database.database import Base, engine
+from app.api.patient import router as patient_router
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+>>>>>>> aa42b3e (Complete Patient CRUD)
+
+app.include_router(patient_router)
+
 
 @app.get("/")
 def home():
