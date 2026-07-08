@@ -1,21 +1,13 @@
 import api from "./api";
 
-export const getAllDoctors = () => {
-    return api.get("/doctor");
+export const getDoctors = () => {
+  return api.get("/doctors");
 };
 
-export const getDoctorById = (id) => {
-    return api.get(`/doctor/${id}`);
+export const saveDiagnosis = (data) => {
+  return api.post("/diagnosis", data);
 };
 
-export const createDoctor = (data) => {
-    return api.post("/doctor", data);
-};
-
-export const updateDoctor = (id, data) => {
-    return api.put(`/doctor/${id}`, data);
-};
-
-export const deleteDoctor = (id) => {
-    return api.delete(`/doctor/${id}`);
+export const savePrescription = (data) => {
+  return api.post("/prescriptions", data);
 };
