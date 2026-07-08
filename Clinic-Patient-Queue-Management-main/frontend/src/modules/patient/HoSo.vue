@@ -150,7 +150,7 @@
     border-radius:10px;
     padding:20px;
 }
-
+//
 .row{
     display:flex;
     justify-content:space-between;

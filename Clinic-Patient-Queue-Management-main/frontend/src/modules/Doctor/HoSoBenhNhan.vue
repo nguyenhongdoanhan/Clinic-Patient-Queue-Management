@@ -53,7 +53,7 @@
             <th>Tiền sử bệnh</th>
             <td>Không có</td>
           </tr>
-
+//
           <tr>
             <th>Dị ứng thuốc</th>
             <td>Không</td>

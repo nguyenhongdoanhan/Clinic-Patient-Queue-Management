@@ -1,3 +1,62 @@
+<template>
+  <div class="home fade">
+
+    <div class="hero">
+      <h1>🏥 HỆ THỐNG QUẢN LÝ PHÒNG KHÁM</h1>
+      <p>Clinic Patient Queue Management System</p>
+    </div>
+
+    <div class="card-container">
+
+      <!-- Bệnh nhân -->
+      <RouterLink to="/benh-nhan" class="home-card">
+        <div class="icon">👤</div>
+        <h2>Bệnh nhân</h2>
+        <p>
+          Quản lý hồ sơ cá nhân, đặt lịch khám,
+          theo dõi hàng đợi và lịch sử khám bệnh.
+        </p>
+
+        <button class="btn">
+          Vào hệ thống →
+        </button>
+      </RouterLink>
+
+      <!-- Lễ tân -->
+      <RouterLink to="/le-tan" class="home-card">
+        <div class="icon">🧑‍💼</div>
+        <h2>Lễ tân</h2>
+        <p>
+          Quản lý thông tin bệnh nhân,
+          lịch khám và hàng đợi khám.
+        </p>
+
+        <button class="btn">
+          Vào hệ thống →
+        </button>
+      </RouterLink>
+
+      <!-- Bác sĩ -->
+      <RouterLink to="/bac-si" class="home-card">
+        <div class="icon">👨‍⚕️</div>
+        <h2>Bác sĩ</h2>
+        <p>
+          Khám bệnh, chẩn đoán,
+          kê đơn thuốc và hoàn thành ca khám.
+        </p>
+
+        <button class="btn">
+          Vào hệ thống →
+        </button>
+      </RouterLink>
+
+    </div>
+
+  </div>
+</template>
+
+<style scoped>
+
 .home {
   min-height: 100vh;
   padding: 60px;
@@ -13,7 +72,6 @@
   background-position: center;
 }
 
-/* Vòng tròn trang trí */
 .home::before {
   content: "";
   position: absolute;
@@ -73,15 +131,13 @@
   color: #333;
   text-decoration: none;
   border: 1px solid rgba(255,255,255,.6);
-  box-shadow:
-      0 10px 40px rgba(0,0,0,.1);
+  box-shadow: 0 10px 40px rgba(0,0,0,.1);
   transition: .4s;
 }
 
 .home-card:hover {
   transform: translateY(-15px) scale(1.03);
-  box-shadow:
-      0 20px 50px rgba(25,118,210,.25);
+  box-shadow: 0 20px 50px rgba(25,118,210,.25);
 }
 
 .icon {
@@ -109,9 +165,9 @@
   padding: 15px;
   border-radius: 14px;
   background: linear-gradient(
-      90deg,
-      #1565c0,
-      #42a5f5
+    90deg,
+    #1565c0,
+    #42a5f5
   );
   color: white;
   font-size: 18px;
@@ -135,3 +191,7 @@
     transform: translateY(0);
   }
 }
+
+</style>
+
+

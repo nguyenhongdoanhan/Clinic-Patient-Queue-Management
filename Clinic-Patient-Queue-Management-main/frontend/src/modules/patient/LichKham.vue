@@ -164,7 +164,7 @@ tr:hover{
 .waiting{
     background:#fb8c00;
 }
-
+//
 .cancel{
     background:#e53935;
     color:white;

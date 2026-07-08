@@ -4,7 +4,7 @@
     <div class="flex-between" style="margin-bottom:25px;">
 
       <h1 class="page-title">🩺 Chẩn đoán bệnh nhân</h1>
-
+//
       <RouterLink to="/bac-si/danh-sach">
         <button class="btn">
           ← Quay lại

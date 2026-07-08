@@ -64,7 +64,7 @@
           📄 Kết quả khám
         </button>
       </RouterLink>
-
+//
       <RouterLink to="/bac-si/ke-don">
         <button class="btn">
           💊 Kê đơn thuốc
