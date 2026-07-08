@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "MyPassword@123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: "mssql+pyodbc://sa:MyPassword%40123@mssql:1433/clinic_db?driver=ODBC+Driver+17+for+SQL+Server"
+      SECRET_KEY: "clinic-secret-key"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_MINUTES: "1440"
+    depends_on:
+      - mssql
+    volumes:
+      - ./backend:/app
+
+volumes:
+  mssql_data:
