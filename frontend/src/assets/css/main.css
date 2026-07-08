@@ -1,22 +1,234 @@
+/* ================= RESET ================= */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
 }
 
 body{
-    background:#f4f6f9;
-    font-family:"Segoe UI",sans-serif;
+    background:#eef3f8;
+    color:#2c3e50;
+    line-height:1.6;
 }
 
 a{
     text-decoration:none;
-}
-
-img{
-    max-width:100%;
+    color:inherit;
 }
 
 button{
     cursor:pointer;
+    border:none;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    padding:30px;
+}
+
+/* ================= TITLE ================= */
+
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    color:#1565c0;
+    margin-bottom:25px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    border:1px solid #edf2f7;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(21,101,192,.15);
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+}
+
+.dashboard-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    border-top:6px solid #1976d2;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(25,118,210,.18);
+}
+
+.dashboard-card .icon{
+    font-size:52px;
+    margin-bottom:15px;
+}
+
+.dashboard-card p{
+    color:#666;
+    margin-bottom:10px;
+}
+
+.dashboard-card h2{
+    color:#1976d2;
+    font-size:32px;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+    background:linear-gradient(135deg,#1976d2,#42a5f5);
+    color:white;
+    padding:13px 28px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(25,118,210,.25);
+}
+
+/* ================= FORM ================= */
+
+.group{
+    margin-bottom:22px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #d8dee9;
+    border-radius:10px;
+    font-size:15px;
+    background:white;
+    transition:.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:#1976d2;
+    box-shadow:0 0 10px rgba(25,118,210,.15);
+}
+
+/* ================= TABLE ================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,.06);
+}
+
+th{
+    background:#1976d2;
+    color:white;
+    padding:16px;
+    text-align:left;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #ececec;
+}
+
+tr:hover{
+    background:#f5f9ff;
+}
+
+/* ================= BADGE ================= */
+
+.badge-success{
+    background:#4caf50;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.badge-warning{
+    background:#ff9800;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+.badge-danger{
+    background:#f44336;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+/* ================= FLEX ================= */
+
+.flex{
+    display:flex;
+}
+
+.flex-between{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.flex-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.gap-20{
+    gap:20px;
+}
+
+/* ================= ANIMATION ================= */
+
+.fade{
+    animation:fade .4s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
