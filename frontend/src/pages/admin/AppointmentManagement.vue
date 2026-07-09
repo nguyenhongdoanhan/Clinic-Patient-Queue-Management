@@ -241,7 +241,7 @@ const search = ref("")
 // =========================
 
 const appointments = ref([
-
+//template
   {
     id: 1,
     patient: "Nguyễn Văn A",

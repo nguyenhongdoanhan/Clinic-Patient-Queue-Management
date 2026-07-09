@@ -44,25 +44,20 @@
 
           </div>
 
-          <!-- Error Alert -->
-          <div v-if="errorMessage" class="alert alert-danger mb-3" role="alert">
-            {{ errorMessage }}
-          </div>
-
           <form @submit.prevent="register">
 
-            <!-- Username -->
+            <!-- Họ tên -->
             <div class="mb-3">
 
               <label class="form-label">
-                Tên đăng nhập
+                Họ và tên
               </label>
 
               <input
-                v-model="form.username"
+                v-model="form.fullName"
                 type="text"
                 class="form-control"
-                placeholder="Nhập tên đăng nhập"
+                placeholder="Nhập họ và tên"
                 required
               />
 
@@ -89,6 +84,39 @@
               >
                 {{ emailError }}
               </small>
+
+            </div>
+
+            <!-- Điện thoại -->
+            <div class="mb-3">
+
+              <label class="form-label">
+                Số điện thoại
+              </label>
+
+              <input
+                v-model="form.phone"
+                type="text"
+                class="form-control"
+                placeholder="Nhập số điện thoại"
+                required
+              />
+
+            </div>
+
+            <!-- Địa chỉ -->
+            <div class="mb-3">
+
+              <label class="form-label">
+                Địa chỉ
+              </label>
+
+              <textarea
+                v-model="form.address"
+                rows="2"
+                class="form-control"
+                placeholder="Nhập địa chỉ"
+              ></textarea>
 
             </div>
 
@@ -177,15 +205,11 @@
 
             <div class="d-grid">
 
-              <button 
-                type="submit"
-                class="btn btn-primary btn-lg"
-                :disabled="authStore.loading"
-              >
-                <span v-if="authStore.loading" class="spinner-border spinner-border-sm me-2"></span>
-                <i v-else class="bi bi-person-plus-fill"></i>
+              <button class="btn btn-primary btn-lg">
 
-                {{ authStore.loading ? 'Đang đăng ký...' : 'Đăng ký' }}
+                <i class="bi bi-person-plus-fill"></i>
+
+                Đăng ký
 
               </button>
 
@@ -218,64 +242,70 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "../../stores/auth";
-
-const router = useRouter();
-const authStore = useAuthStore();
 
 const showPassword = ref(false);
+
 const confirmPassword = ref("");
+
 const accept = ref(false);
+
 const emailError = ref("");
+
 const passwordError = ref("");
-const errorMessage = ref("");
 
 const form = reactive({
-  username: "",
+
+  fullName: "",
+
   email: "",
+
+  phone: "",
+
+  address: "",
+
   password: ""
+
 });
 
-const register = async () => {
+const register = () => {
+
   emailError.value = "";
+
   passwordError.value = "";
-  errorMessage.value = "";
 
-  // Validate email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   if(!emailRegex.test(form.email)){
-    emailError.value = "Email không hợp lệ";
+
+    emailError.value="Email không hợp lệ";
+
     return;
+
   }
 
-  // Validate password
-  if (form.password.length < 6) {
-    passwordError.value = "Mật khẩu phải có ít nhất 6 ký tự";
-    return;
-  }
+  if(form.password!==confirmPassword.value){
 
-  if(form.password !== confirmPassword.value){
-    passwordError.value = "Mật khẩu xác nhận không khớp";
+    passwordError.value="Mật khẩu xác nhận không khớp";
+
     return;
+
   }
 
   if(!accept.value){
-    errorMessage.value = "Bạn cần đồng ý điều khoản.";
+
+    alert("Bạn cần đồng ý điều khoản.");
+
     return;
+
   }
 
-  try {
-    await authStore.register(form.username, form.email, form.password);
-    alert("Đăng ký thành công! Vui lòng đăng nhập.");
-    router.push("/login");
-  } catch (error) {
-    errorMessage.value = authStore.error || "Đăng ký thất bại";
-  }
+  console.log(form);
+
+  alert("Đăng ký thành công (Mock)");
+
 }
-</script>
-
-<style scoped>
+</script><style scoped>
 
 .register-page{
     background:#f4f6f9;

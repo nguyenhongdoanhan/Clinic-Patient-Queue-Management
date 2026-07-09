@@ -29,7 +29,7 @@
 
         <StatCard
           title="Bác sĩ"
-          :value="20"
+          :value="1"
           icon="bi bi-person-badge-fill"
           color="#0d6efd"
         />
