@@ -44,11 +44,6 @@
 
           </div>
 
-          <!-- Error Alert -->
-          <div v-if="errorMessage" class="alert alert-danger mb-3" role="alert">
-            {{ errorMessage }}
-          </div>
-
           <form @submit.prevent="login">
 
             <!-- Email -->
@@ -143,15 +138,11 @@
             <!-- Button -->
             <div class="d-grid">
 
-              <button 
-                type="submit"
-                class="btn btn-primary btn-lg" 
-                :disabled="authStore.loading"
-              >
-                <span v-if="authStore.loading" class="spinner-border spinner-border-sm me-2"></span>
-                <i v-else class="bi bi-box-arrow-in-right"></i>
+              <button class="btn btn-primary btn-lg">
 
-                {{ authStore.loading ? 'Đang đăng nhập...' : 'Đăng nhập' }}
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Đăng nhập
 
               </button>
 
@@ -183,59 +174,23 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "../../stores/auth";
-
-const router = useRouter();
-const authStore = useAuthStore();
 
 const email = ref("");
 const password = ref("");
 const remember = ref(false);
 const showPassword = ref(false);
-const errorMessage = ref("");
 
-const login = async () => {
-  errorMessage.value = "";
+const login = () => {
 
-  // Validate
-  if (!email.value || !password.value) {
-    errorMessage.value = "Vui lòng nhập email và mật khẩu";
-    return;
-  }
+  console.log({
+    email: email.value,
+    password: password.value,
+    remember: remember.value,
+  });
 
-  try {
-    console.log("Starting login...");
-    const result = await authStore.login(email.value, password.value);
-    console.log("Login result:", result);
-    console.log("Token after login:", authStore.token);
-    console.log("isAuthenticated:", authStore.isAuthenticated);
-    
-    // Lưu remember me
-    if (remember.value) {
-      localStorage.setItem("rememberEmail", email.value);
-    }
-    
-    // Redirect to dashboard
-    console.log("Redirecting to /admin/dashboard");
-    await router.push("/admin/dashboard");
-    console.log("Redirect complete");
-  } catch (error) {
-    console.error("Login error:", error);
-    errorMessage.value = authStore.error || error.message || "Đăng nhập thất bại";
-  }
+  alert("Đăng nhập thành công (Mock)");
+
 };
-
-// Load remembered email
-const loadRememberedEmail = () => {
-  const rememberedEmail = localStorage.getItem("rememberEmail");
-  if (rememberedEmail) {
-    email.value = rememberedEmail;
-    remember.value = true;
-  }
-};
-
-loadRememberedEmail();
 </script>
 
 <style scoped>
