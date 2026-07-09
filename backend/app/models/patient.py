@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -26,3 +27,15 @@ class Patient(Base):
     address = Column(String(255))
 
     created_at = Column(DateTime, default=datetime.utcnow)
+=======
+from sqlalchemy import Column, Integer, String
+from app.database.database import Base
+
+class Patient(Base):
+    __tablename__ = "patients"
+
+    id = Column(Integer, primary_key=True, index=True)
+    full_name = Column(String(100))
+    phone = Column(String(20))
+    email = Column(String(100))
+>>>>>>> aa42b3e (Complete Patient CRUD)
