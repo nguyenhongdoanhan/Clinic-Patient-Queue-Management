@@ -230,7 +230,7 @@ button{
 .blue:hover{
     background:#1565c0;
 }
-//
+
 .green{
     background:#43a047;
 }

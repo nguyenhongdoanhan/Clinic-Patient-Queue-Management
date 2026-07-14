@@ -1,21 +1,21 @@
 import api from "./api";
 
 export const getAllQueues = () => {
-    return api.get("/api/queues");
+    return api.get("/queues");
 };
 
 export const getQueueById = (id) => {
-    return api.get(`/api/queues/${id}`);
+    return api.get(`/queues/${id}`);
 };
 
 export const createQueue = (data) => {
-    return api.post("/api/queues", data);
+    return api.post("/queues", data);
 };
 
 export const updateQueue = (id, data) => {
-    return api.put(`/api/queues/${id}`, data);
+    return api.put(`/queues/${id}`, data);
 };
 
 export const deleteQueue = (id) => {
-    return api.delete(`/api/queues/${id}`);
+    return api.delete(`/queues/${id}`);
 };

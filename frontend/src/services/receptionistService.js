@@ -5,5 +5,5 @@ export const getAppointments = () => {
 };
 
 export const getQueue = () => {
-  return api.get("/queue");
+  return api.get("/queues");
 };

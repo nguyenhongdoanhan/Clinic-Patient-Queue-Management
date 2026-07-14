@@ -25,7 +25,7 @@
 
       </div>
 
-      <form>
+      <form @submit.prevent="handleSubmit">
 
         <div class="row">
 
@@ -33,7 +33,9 @@
             <label>Họ và tên</label>
             <input
               type="text"
-              value="Nguyễn Văn A"
+              v-model="fullName"
+              placeholder="Nhập họ và tên"
+              required
             >
           </div>
 
@@ -41,7 +43,8 @@
             <label>Ngày sinh</label>
             <input
               type="date"
-              value="2003-05-15"
+              v-model="birthday"
+              required
             >
           </div>
 
@@ -52,9 +55,9 @@
           <div class="group">
             <label>Giới tính</label>
 
-            <select>
-              <option selected>Nam</option>
-              <option>Nữ</option>
+            <select v-model="gender" required>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
             </select>
 
           </div>
@@ -64,7 +67,9 @@
 
             <input
               type="text"
-              value="0912345678"
+              v-model="phone"
+              placeholder="Nhập số điện thoại"
+              required
             >
           </div>
 
@@ -75,14 +80,26 @@
 
           <input
             type="email"
-            value="vana@gmail.com"
+            v-model="email"
+            placeholder="Nhập email"
+            required
           >
         </div>
 
         <div class="group">
           <label>Địa chỉ</label>
 
-          <textarea rows="4">Đà Nẵng</textarea>
+          <textarea
+            rows="4"
+            v-model="address"
+            placeholder="Nhập địa chỉ"
+            required
+          ></textarea>
+        </div>
+
+        <div class="message-group">
+          <p v-if="message" class="success-message">{{ message }}</p>
+          <p v-if="error" class="error-message">{{ error }}</p>
         </div>
 
         <div class="button-group">
@@ -99,8 +116,9 @@
           <button
             type="submit"
             class="save"
+            :disabled="loading"
           >
-            💾 Lưu thông tin
+            {{ loading ? 'Đang lưu...' : '💾 Lưu thông tin' }}
           </button>
 
         </div>
@@ -111,6 +129,108 @@
 
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import * as patientService from "../../services/patientService";
+import { useAuthStore } from "../../stores/auth";
+
+const authStore = useAuthStore();
+const patientId = ref(null);
+const fullName = ref("");
+const birthday = ref("");
+const gender = ref("Nam");
+const phone = ref("");
+const email = ref("");
+const address = ref("");
+const loading = ref(false);
+const message = ref("");
+const error = ref("");
+
+const loadPatient = async () => {
+  if (!authStore.user?.email) {
+    return;
+  }
+
+  try {
+    loading.value = true;
+    const res = await patientService.getPatients();
+    const patient = res.data.find((item) => item.email === authStore.user.email);
+
+    if (patient) {
+      patientId.value = patient.id;
+      fullName.value = patient.full_name || "";
+      birthday.value = patient.birthday || "";
+      gender.value = patient.gender || "Nam";
+      phone.value = patient.phone || "";
+      email.value = patient.email || authStore.user.email;
+      address.value = patient.address || "";
+    } else {
+      email.value = authStore.user.email;
+    }
+  } catch (err) {
+    console.error("Load patient failed", err);
+    error.value = "Không tải được thông tin bệnh nhân.";
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleSubmit = async () => {
+  error.value = "";
+  message.value = "";
+  loading.value = true;
+
+  const payload = {
+    full_name: fullName.value,
+    gender: gender.value,
+    birthday: birthday.value,
+    phone: phone.value,
+    email: email.value,
+    address: address.value,
+  };
+
+  try {
+    let res;
+    if (patientId.value) {
+      res = await patientService.updatePatient(patientId.value, payload);
+      message.value = "Cập nhật hồ sơ thành công.";
+    } else {
+      res = await patientService.addPatient(payload);
+      patientId.value = res.data.id;
+      message.value = "Đã tạo hồ sơ bệnh nhân mới.";
+    }
+
+    // Nếu API trả về object patient, cập nhật ngay các field từ response
+    if (res?.data) {
+      const p = res.data;
+      patientId.value = p.id;
+      fullName.value = p.full_name || fullName.value;
+      // đảm bảo birthday ở định dạng YYYY-MM-DD cho input[type=date]
+      if (p.birthday) {
+        const b = String(p.birthday);
+        birthday.value = b.includes("T") ? b.slice(0, 10) : b;
+      }
+      gender.value = p.gender || gender.value;
+      phone.value = p.phone || phone.value;
+      email.value = p.email || email.value;
+      address.value = p.address || address.value;
+    }
+
+    // reload nhẹ nhàng để đảm bảo đồng bộ nếu cần
+    // await loadPatient();
+  } catch (err) {
+    console.error("Save patient failed", err);
+    error.value = err.response?.data?.detail || "Lưu thông tin thất bại.";
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  loadPatient();
+});
+</script>
 
 <style scoped>
 
@@ -218,7 +338,6 @@ button{
     background:#9e9e9e;
     color:white;
 }
-//
 .cancel:hover{
     background:#757575;
 }
@@ -230,6 +349,20 @@ button{
 
 .save:hover{
     background:#1976d2;
+}
+
+.message-group{
+    margin-top:10px;
+}
+
+.success-message{
+    color:#2e7d32;
+    margin-bottom:0;
+}
+
+.error-message{
+    color:#d32f2f;
+    margin-bottom:0;
 }
 
 a{

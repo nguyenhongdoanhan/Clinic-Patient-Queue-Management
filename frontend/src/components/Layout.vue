@@ -34,7 +34,6 @@ import Navbar from "./Navbar.vue";
 display:flex;
 
 }
-//
 .main{
 
 margin-left:240px;

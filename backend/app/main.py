@@ -26,7 +26,6 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(users_router)
-app.include_router(patients_router)
 app.include_router(doctor_router)
 app.include_router(appointments_router)
 app.include_router(queues_router)
@@ -36,6 +35,9 @@ app.include_router(medical_records_router)
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)
+    from app.core.database import ensure_patient_schema
+
+    ensure_patient_schema()
     
     # Create default admin user
     db = SessionLocal()
@@ -55,17 +57,8 @@ def on_startup():
     finally:
         db.close()
 
-<<<<<<< HEAD
-=======
-from app.database.database import Base, engine
-from app.api.patient import router as patient_router
 
-Base.metadata.create_all(bind=engine)
-
-app = FastAPI()
->>>>>>> aa42b3e (Complete Patient CRUD)
-
-app.include_router(patient_router)
+app.include_router(patients_router)
 
 
 @app.get("/")

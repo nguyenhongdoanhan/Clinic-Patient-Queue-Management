@@ -40,6 +40,22 @@
 
           <label class="form-label">
 
+            Email
+
+          </label>
+
+          <input
+            type="email"
+            class="form-control"
+            v-model="patientData.email"
+          >
+
+        </div>
+
+        <div class="mb-3">
+
+          <label class="form-label">
+
             Giới tính
 
           </label>
@@ -165,6 +181,8 @@ birthday:"",
 phone:"",
 
 address:""
+
+ ,email: ""
 
 })
 

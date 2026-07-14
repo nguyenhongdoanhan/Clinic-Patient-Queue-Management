@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -11,31 +10,48 @@ from app.core.database import Base
 
 
 class Patient(Base):
-
     __tablename__ = "patients"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
 
-    full_name = Column(String(150), nullable=False)
+    full_name = Column(
+        String(150),
+        nullable=False,
+    )
 
-    gender = Column(String(20))
+    gender = Column(
+        String(20),
+        nullable=True,
+    )
 
-    birthday = Column(Date)
+    birthday = Column(
+        Date,
+        nullable=True,
+    )
 
-    phone = Column(String(20))
+    phone = Column(
+        String(20),
+        nullable=True,
+    )
 
-    address = Column(String(255))
+    email = Column(
+        String(100),
+        nullable=True,
+    )
 
-    created_at = Column(DateTime, default=datetime.utcnow)
-=======
-from sqlalchemy import Column, Integer, String
-from app.database.database import Base
+    address = Column(
+        String(255),
+        nullable=True,
+    )
 
-class Patient(Base):
-    __tablename__ = "patients"
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+    )
 
-    id = Column(Integer, primary_key=True, index=True)
-    full_name = Column(String(100))
-    phone = Column(String(20))
-    email = Column(String(100))
->>>>>>> aa42b3e (Complete Patient CRUD)
+    def __repr__(self) -> str:
+        return f"<Patient id={self.id} full_name={self.full_name!r}>"

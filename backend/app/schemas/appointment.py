@@ -7,6 +7,7 @@ class AppointmentBase(BaseModel):
     doctor_id: int
     appointment_date: date
     appointment_time: time
+    status: str | None = "Đã đặt"
 
 
 class AppointmentCreate(AppointmentBase):

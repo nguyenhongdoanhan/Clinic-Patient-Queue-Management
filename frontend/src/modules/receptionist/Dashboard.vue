@@ -106,7 +106,6 @@ p{
     gap:20px;
     margin-top:40px;
 }
-//
 .box{
     background:white;
     border-radius:12px;

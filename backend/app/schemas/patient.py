@@ -1,38 +1,19 @@
-from pydantic import BaseModel
-<<<<<<< HEAD
 from datetime import date
+from typing import Optional
+from pydantic import BaseModel
 
 
 class PatientCreate(BaseModel):
-
     full_name: str
-
-    gender: str
-
-    birthday: date
-
-    phone: str
-
-    address: str
-
-
-class PatientResponse(PatientCreate):
-
-    id: int
-
-    class Config:
-
-=======
-
-class PatientCreate(BaseModel):
-    full_name: str
-    phone: str
-    email: str
+    gender: Optional[str] = None
+    birthday: Optional[date] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    address: Optional[str] = None
 
 
 class PatientResponse(PatientCreate):
     id: int
 
     class Config:
->>>>>>> aa42b3e (Complete Patient CRUD)
         from_attributes = True

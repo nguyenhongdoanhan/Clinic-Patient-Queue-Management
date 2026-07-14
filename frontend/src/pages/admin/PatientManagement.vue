@@ -155,7 +155,7 @@
 </template>
 <script setup>
 
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 
 import AdminSidebar from "../../components/layout/AdminSidebar.vue"
 import AdminNavbar from "../../components/layout/AdminNavbar.vue"
@@ -167,34 +167,30 @@ import DeletePatientModal from "../../components/patient/DeletePatientModal.vue"
 // Data bệnh nhân
 // =========================
 
+import * as patientService from "../../services/patientService"
+
 const search = ref("")
 
-const patients = ref([
-    {
-        id: 1,
-        name: "Nguyễn Văn A",
-        gender: "Nam",
-        birthday: "2000-10-12",
-        phone: "0912345678",
-        address: "Hà Nội"
-    },
-    {
-        id: 2,
-        name: "Trần Thị B",
-        gender: "Nữ",
-        birthday: "1999-08-20",
-        phone: "0988888888",
-        address: "Đà Nẵng"
-    },
-    {
-        id: 3,
-        name: "Lê Văn C",
-        gender: "Nam",
-        birthday: "2002-05-10",
-        phone: "0977777777",
-        address: "TP.HCM"
-    }
-])
+const patients = ref([])
+
+// Load patients from backend on mount
+onMounted(async () => {
+  try {
+    const res = await patientService.getPatients()
+    // map backend `full_name` -> frontend `name`
+    patients.value = res.data.map(p => ({
+      id: p.id,
+      name: p.full_name,
+      gender: p.gender,
+      birthday: p.birthday,
+      phone: p.phone,
+      address: p.address,
+      email: p.email,
+    }))
+  } catch (err) {
+    console.error("Failed to load patients", err)
+  }
+})
 
 // =========================
 // Modal state
@@ -247,22 +243,50 @@ function openDeletePatient(patient) {
 // =========================
 
 function savePatient(data) {
+  // Map frontend fields to backend payload
+  const payload = {
+    full_name: data.name,
+    gender: data.gender,
+    birthday: data.birthday,
+    phone: data.phone,
+    email: data.email || null,
+    address: data.address,
+  }
 
-    if (data.id) {
-
+  if (data.id) {
+    // Update on backend
+    patientService.updatePatient(data.id, payload)
+      .then(res => {
         const index = patients.value.findIndex(p => p.id === data.id)
         if (index !== -1) {
-            patients.value[index] = { ...data }
+          patients.value[index] = { ...patients.value[index], ...{
+            name: res.data.full_name,
+            gender: res.data.gender,
+            birthday: res.data.birthday,
+            phone: res.data.phone,
+            address: res.data.address,
+            email: res.data.email,
+          }}
         }
-
-    } else {
-
-        data.id = patients.value.length
-            ? Math.max(...patients.value.map(p => p.id)) + 1
-            : 1
-
-        patients.value.push({ ...data })
-    }
+      })
+      .catch(err => console.error("Failed to update patient", err))
+  } else {
+    // Create on backend
+    patientService.addPatient(payload)
+      .then(res => {
+        const p = res.data
+        patients.value.push({
+          id: p.id,
+          name: p.full_name,
+          gender: p.gender,
+          birthday: p.birthday,
+          phone: p.phone,
+          address: p.address,
+          email: p.email,
+        })
+      })
+      .catch(err => console.error("Failed to create patient", err))
+  }
 
 }
 
@@ -271,7 +295,11 @@ function savePatient(data) {
 // =========================
 
 function deletePatient(patient) {
-    patients.value = patients.value.filter(p => p.id !== patient.id)
+  patientService.deletePatient(patient.id)
+    .then(() => {
+      patients.value = patients.value.filter(p => p.id !== patient.id)
+    })
+    .catch(err => console.error("Failed to delete patient", err))
 }
 
 </script>

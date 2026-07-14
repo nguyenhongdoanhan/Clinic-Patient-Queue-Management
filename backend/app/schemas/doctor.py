@@ -6,6 +6,7 @@ class DoctorBase(BaseModel):
     specialty: str | None = None
     phone: str | None = None
     email: str | None = None
+    status: str | None = "Đang làm việc"
 
 
 class DoctorCreate(DoctorBase):

@@ -224,7 +224,6 @@
     box-shadow:0 5px 15px rgba(0,0,0,.08);
     transition:.3s;
 }
-//
 .menu-card:hover{
     background:#1976d2;
     color:white;
